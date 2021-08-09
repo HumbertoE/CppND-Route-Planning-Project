@@ -56,10 +56,10 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
 // - Return the pointer.
 
 // declaring the function as a method in route_planner.h first doesn't work as written in the next line:
-bool RoutePlanner::Compare(const RouteModel::Node *node1, const RouteModel::Node *node2){
+//bool RoutePlanner::Compare(const RouteModel::Node *node1, const RouteModel::Node *node2){
 //
 // but without declaring it first in route_planner.h, it works as written in the next line:
-//bool Compare(const RouteModel::Node *node1, const RouteModel::Node *node2){
+bool Compare(const RouteModel::Node *node1, const RouteModel::Node *node2){
     float f1 = node1->g_value + node1->h_value;
     float f2 = node2->g_value + node2->h_value;
     return f1>f2;
@@ -67,13 +67,21 @@ bool RoutePlanner::Compare(const RouteModel::Node *node1, const RouteModel::Node
 
 RouteModel::Node *RoutePlanner::NextNode() {
     // declaring the function as a method in route_planner.h first doesn't work as written in the next line: 
-    std::sort(open_list.begin(), open_list.end(), RoutePlanner::Compare);
+    //std::sort(open_list.begin(), open_list.end(), RoutePlanner::Compare);
     //
     // but without declaring it first in route_planner.h, it works as written in the next line:
-    //std::sort(open_list.begin(), open_list.end(), Compare);
+    std::sort(open_list.begin(), open_list.end(), Compare);
 
     RouteModel::Node *current = this->open_list[this->open_list.size()-1];
+    
+    //debug code
+    //std::cout<<"\nNew run of NextNode\n";
+    //for(RouteModel::Node *node: open_list){
+    //    std::cout<<"f= "<< node->g_value+node->h_value<<", g= "<< node->g_value<<", h= "<< node->h_value<<"\n";
+    //}
+
     this->open_list.pop_back();
+
     return current;
 }
 
@@ -92,6 +100,20 @@ std::vector<RouteModel::Node> RoutePlanner::ConstructFinalPath(RouteModel::Node 
     std::vector<RouteModel::Node> path_found;
 
     // TODO: Implement your solution here.
+    std::vector<RouteModel::Node> reverse_path_found;
+
+    // Iteratively create final path (reversed)
+    while(current_node!=start_node){
+        distance += current_node->distance(*current_node->parent);
+        reverse_path_found.push_back(*current_node);
+        current_node = current_node->parent;
+    }
+    reverse_path_found.push_back(*start_node);
+
+    // Reverse vector
+    for(int i=reverse_path_found.size()-1; i>=0; i--){
+        path_found.push_back(reverse_path_found[i]);
+    }
 
     distance *= m_Model.MetricScale(); // Multiply the distance by the scale of the map to get meters.
     return path_found;
@@ -110,5 +132,34 @@ void RoutePlanner::AStarSearch() {
     RouteModel::Node *current_node = nullptr;
 
     // TODO: Implement your solution here.
+    // Add starting point to open list and set it as current node
+    current_node = start_node;
+    current_node->h_value = CalculateHValue(current_node);
+    current_node->visited = true;
+    this->open_list.push_back(current_node);
 
+    while(open_list.size()>0){
+        // Select optimal node
+        current_node = NextNode();
+        
+        if(current_node==end_node){break;}
+
+        // Add suitable neighbors to open list
+        AddNeighbors(current_node);
+    }
+
+    // Track back the found map
+    m_Model.path = ConstructFinalPath(current_node);
+
+    //Debugging code
+    //std::cout<<"\nAll nodes coordinates in final path\n";
+    //for(int i=0;i<m_Model.path.size();i++){
+    //    std::cout<<"node "<<i+1<<": "<< m_Model.path[i].x<<", "<< m_Model.path[i].y<<"\n";
+    //}
+
+    //Debugging code
+    //std::cout<<"\nStart: "<<start_node->x<<","<<start_node->y;
+    //std::cout<<"\nEnd: "<<end_node->x<<","<<end_node->y;
+    //std::cout<<"\nFirst element: "<<m_Model.path.front().x<<","<<m_Model.path.front().y;
+    //std::cout<<"\nLast element: "<<m_Model.path.back().x<<","<<m_Model.path.back().y<<"\n";
 }

@@ -31,7 +31,7 @@ class RoutePlanner {
 
     //Private methods
     // declaring the function as a method in route_planner.h first doesn't work, but it works commenting the next line
-    bool Compare(const RouteModel::Node *node1, const RouteModel::Node *node2);
+    //bool Compare(const RouteModel::Node *node1, const RouteModel::Node *node2);
 };
 
 #endif
