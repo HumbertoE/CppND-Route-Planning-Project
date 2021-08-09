@@ -71,34 +71,6 @@ int main(int argc, const char **argv)
     float end_x = GetInput("Enter x coordinate of the ending point (numbers between 0 and 100): ");
     float end_y = GetInput("Enter y coordinate of the ending point (numbers between 0 and 100): ");
 
-    //std::cout << "Enter x coordinate of the starting point (numbers between 0 and 100): ";
-    //std::cin >> start_x;
-    //while(start_x<0 || start_x>100){
-    //    std::cout << "Number out of limits. Enter x coordinate of the starting point (numbers between 0 and 100):";
-    //    std::cin >> start_x;
-    //}
-
-    //std::cout << "Enter y coordinate of the starting point (numbers between 0 and 100): ";
-    //std::cin >> start_y;
-    //while(start_y<0 || start_y>100){
-    //    std::cout << "Number out of limits. Enter y coordinate of the starting point (numbers between 0 and 100):";
-    //    std::cin >> start_y;
-    //}
-
-    //std::cout << "Enter x coordinate of the ending point (numbers between 0 and 100): ";
-    //std::cin >> end_x;
-    //while(end_x<0 || end_x>100){
-    //    std::cout << "Number out of limits. Enter x coordinate of the ending point (numbers between 0 and 100):";
-    //    std::cin >> end_x;
-    //}
-
-    //std::cout << "Enter y coordinate of the ending point (numbers between 0 and 100): ";
-    //std::cin >> end_y;
-    //while(end_y<0 || end_y>100){
-    //    std::cout << "Number out of limits. Enter y coordinate of the ending point (numbers between 0 and 100):";
-    //    std::cin >> end_y;
-    //}
-
     // Build Model.
     RouteModel model{osm_data};
 
