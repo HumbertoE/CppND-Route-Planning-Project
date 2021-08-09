@@ -27,6 +27,17 @@ static std::optional<std::vector<std::byte>> ReadFile(const std::string &path)
     return std::move(contents);
 }
 
+float GetInput(std::string message){
+    float value;
+    std::cout << message;
+    std::cin >> value;
+    while(value<0 || value>100){
+        std::cout << "Number out of limits. " << message;
+        std::cin >> value;
+    }
+    return value;
+}
+
 int main(int argc, const char **argv)
 {    
     std::string osm_data_file = "";
@@ -55,38 +66,38 @@ int main(int argc, const char **argv)
     // TODO 1: Declare floats `start_x`, `start_y`, `end_x`, and `end_y` and get
     // user input for these values using std::cin. Pass the user input to the
     // RoutePlanner object below in place of 10, 10, 90, 90.
-    float start_x;
-    float start_y;
-    float end_x;
-    float end_y;
+    float start_x = GetInput("Enter x coordinate of the starting point (numbers between 0 and 100): ");
+    float start_y = GetInput("Enter y coordinate of the starting point (numbers between 0 and 100): ");
+    float end_x = GetInput("Enter x coordinate of the ending point (numbers between 0 and 100): ");
+    float end_y = GetInput("Enter y coordinate of the ending point (numbers between 0 and 100): ");
 
-    std::cout << "Enter x coordinate of the starting point (numbers between 0 and 100): ";
-    std::cin >> start_x;
-    while(start_x<0 || start_x>100){
-        std::cout << "Number out of limits. Enter x coordinate of the starting point (numbers between 0 and 100):";
-        std::cin >> start_x;
-    }
+    //std::cout << "Enter x coordinate of the starting point (numbers between 0 and 100): ";
+    //std::cin >> start_x;
+    //while(start_x<0 || start_x>100){
+    //    std::cout << "Number out of limits. Enter x coordinate of the starting point (numbers between 0 and 100):";
+    //    std::cin >> start_x;
+    //}
 
-    std::cout << "Enter y coordinate of the starting point (numbers between 0 and 100): ";
-    std::cin >> start_y;
-    while(start_y<0 || start_y>100){
-        std::cout << "Number out of limits. Enter y coordinate of the starting point (numbers between 0 and 100):";
-        std::cin >> start_y;
-    }
+    //std::cout << "Enter y coordinate of the starting point (numbers between 0 and 100): ";
+    //std::cin >> start_y;
+    //while(start_y<0 || start_y>100){
+    //    std::cout << "Number out of limits. Enter y coordinate of the starting point (numbers between 0 and 100):";
+    //    std::cin >> start_y;
+    //}
 
-    std::cout << "Enter x coordinate of the ending point (numbers between 0 and 100): ";
-    std::cin >> end_x;
-    while(end_x<0 || end_x>100){
-        std::cout << "Number out of limits. Enter x coordinate of the ending point (numbers between 0 and 100):";
-        std::cin >> end_x;
-    }
+    //std::cout << "Enter x coordinate of the ending point (numbers between 0 and 100): ";
+    //std::cin >> end_x;
+    //while(end_x<0 || end_x>100){
+    //    std::cout << "Number out of limits. Enter x coordinate of the ending point (numbers between 0 and 100):";
+    //    std::cin >> end_x;
+    //}
 
-    std::cout << "Enter y coordinate of the ending point (numbers between 0 and 100): ";
-    std::cin >> end_y;
-    while(end_y<0 || end_y>100){
-        std::cout << "Number out of limits. Enter y coordinate of the ending point (numbers between 0 and 100):";
-        std::cin >> end_y;
-    }
+    //std::cout << "Enter y coordinate of the ending point (numbers between 0 and 100): ";
+    //std::cin >> end_y;
+    //while(end_y<0 || end_y>100){
+    //    std::cout << "Number out of limits. Enter y coordinate of the ending point (numbers between 0 and 100):";
+    //    std::cin >> end_y;
+    //}
 
     // Build Model.
     RouteModel model{osm_data};
